@@ -1,0 +1,22 @@
+.Pull {
+  margin-bottom: 10px;
+}
+
+.fa-check,
+.fa-check-circle{
+  color: green;
+}
+
+.fa-times,
+.fa-times-circle{
+  color: red;
+}
+
+.fa-exclamation-triangle,
+.fa-exclamation-circle{
+  color: goldenrod;
+}
+
+.fa-comment {
+  color: darkgrey;
+}
