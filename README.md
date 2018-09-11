@@ -1,4 +1,4 @@
-# PullHub #
+# PR-Roundup #
 This project was created to allow me to monitor the status of Pull-Requests and Peer-Reviews for various projects on Github.
 To configure, in the file `constants.js`, add your pertinent info.
 ```
