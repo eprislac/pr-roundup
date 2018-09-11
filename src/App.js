@@ -40,6 +40,7 @@ class App extends Component {
       );
     });
     this.setState({projectList: this.projectList})
+    document.title = 'PR Roundup'
   }
 
   App() {
