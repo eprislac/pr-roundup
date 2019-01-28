@@ -4,7 +4,7 @@ To configure, in the file `constants.js`, add your pertinent info.
 ```
 USER=<your github username>
 API_KEY=<an api key you set up for the app to access your github info. thekey should have unrestricted repo acceess>
-ORG_URL=<The github url for your org, with trailing backslash>
+ORG_URL=<The github API url for your org, with trailing backslash>
 PROJECTS=[<an array of the project names for your org that you wish to track>]
 ```
 
