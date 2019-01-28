@@ -16,4 +16,6 @@ yarn build --local
 serve -s build
 ```
 
+Changing this file.
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
