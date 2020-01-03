@@ -23,7 +23,11 @@ class Project extends Component {
     fetch(url)
       .then(response => response.json())
       .then(json => {
-        this.setState({pulls: json});
+        this.setState({
+          pulls: json.map(item => {
+            return {...item, ...{hidden: null}}
+          })
+        });
         this.setState({
           milestones : [...new Set(
             this.state.pulls.map((pull) => {
@@ -38,52 +42,75 @@ class Project extends Component {
   Project(props) {
   }
 
-  render() {
-    function parseDate(str) {
-      return new Date(str);
+  handleSelect(event) {
+    event.preventDefault()
+    if (event.target.value === 'none') {
+      this.setState({
+        pulls: this.state.pulls.map(pull => ({...pull, ...{hidden: null}}))
+      })
+    } else {
+      this.setState({
+        pulls: this.state.pulls.map(pull => {
+          return { ...pull, ...{ hidden: ((pull || {}).milestone || {}).title === event.target.value ? null : 'hidden'} }
+        })
+      })
     }
+  }
 
-    function daydiff(first, second) {
-      return Math.ceil((parseDate(second)-parseDate(first))/(1000*60*60*24));
-    }
+  parseDate(str) {
+    return new Date(str);
+  }
 
+  daydiff(first, second) {
+    return Math.ceil((this.parseDate(second)-this.parseDate(first))/(1000*60*60*24));
+  }
+
+  _renderPulls() {
     const today = new Date();
 
     return (
       <div className="Project">
         <h3>{this.state.projectName}</h3>
         <h4>Open pull-requests: {this.state.pulls.length}</h4>
-        <lable> Milestone:&nbsp;
-          <select>
+        <label> Milestone:&nbsp;
+          <select onChange={this.handleSelect.bind(this)}>
             {
               this.state.milestones.map(ms => {
                 return (<option value={ms}>{ms}</option>)
               })
             }
           </select>
-        </lable>
+        </label>
         <ol>
           {
             this.state.pulls.map((pull, index) => {
               const milestone =
                 pull.milestone === null ? 'none' : pull.milestone.title;
-              return (<Pull title={pull.title}
-                    key={index}
-                    author={pull.user.login}
-                    url={pull.html_url}
-                    number={pull.number}
-                    open={daydiff(pull.created_at, today)}
-                    labels={pull.labels}
-                    milestone={milestone}
-                    statuses_url={pull.statuses_url}
-                    projectName={this.state.projectName}
-                    pullId={pull.id}
-              />
-            )})
+              return (
+                <Pull
+                  title={pull.title}
+                  key={'Pull-' + index}
+                  author={pull.user.login}
+                  url={pull.html_url}
+                  number={pull.number}
+                  open={this.daydiff(pull.created_at, today)}
+                  labels={pull.labels}
+                  milestone={milestone}
+                  statuses_url={pull.statuses_url}
+                  projectName={this.state.projectName}
+                  pullId={pull.id}
+                  hidden={pull.hidden}
+                />
+              )
+            })
           }
         </ol>
       </div>
-    );
+    )
+  }
+
+  render() {
+    return this._renderPulls();
   }
 }
 

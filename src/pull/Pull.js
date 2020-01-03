@@ -107,7 +107,7 @@ class Pull extends Component {
     ));
 
     return (
-      <li className="Pull">
+      <li key={'pull-' + this.state.key} className={this.props.hidden ? `Pull ${this.props.hidden}` : 'Pull'}>
         <b>{this.state.title}</b>&nbsp;
         (<a target="_blank" href={this.state.url}>#{this.state.number}</a>)
         - {this.state.statusIcon} | {this.state.commentStatus} {this.state.reviewsIcons}

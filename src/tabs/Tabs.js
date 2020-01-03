@@ -19,7 +19,7 @@ class Tabs extends Component {
     function labels(child, index) {
       let activeClass = (this.state.selected === index ? 'active' : '');
       return (
-        <li key={index}>
+        <li key={'Tab-' + index}>
           <a href="#"
              className={activeClass}
              onClick={this.handleClick.bind(this, index)}>
