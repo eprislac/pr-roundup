@@ -6,7 +6,7 @@ import Pull from '../pull/Pull.js';
 class Project extends Component {
   constructor(props) {
     super(props);
-    this.state = {pulls: [], projectName: props.projectName};
+    this.state = {pulls: [], projectName: props.projectName, milestones: [] };
   }
 
 
@@ -24,6 +24,13 @@ class Project extends Component {
       .then(response => response.json())
       .then(json => {
         this.setState({pulls: json});
+        this.setState({
+          milestones : [...new Set(
+            this.state.pulls.map((pull) => {
+              return pull.milestone === null ? 'none' : pull.milestone.title;
+            })
+          )]
+        })
       })
 
   }
@@ -46,6 +53,15 @@ class Project extends Component {
       <div className="Project">
         <h3>{this.state.projectName}</h3>
         <h4>Open pull-requests: {this.state.pulls.length}</h4>
+        <lable> Milestone:&nbsp;
+          <select>
+            {
+              this.state.milestones.map(ms => {
+                return (<option value={ms}>{ms}</option>)
+              })
+            }
+          </select>
+        </lable>
         <ol>
           {
             this.state.pulls.map((pull, index) => {
